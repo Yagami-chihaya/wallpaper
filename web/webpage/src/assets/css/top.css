@@ -1,0 +1,359 @@
+@keyframes show{
+
+  0%{
+    
+  }
+  100%{
+    background: rgba(50,50, 50, 1);
+  }
+  
+}
+@keyframes turn{
+  0%{
+    transform: rotate(0);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+@keyframes showBoard{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+  #nav{
+    background: url('../img/bg-dark-grain.png');
+    overflow: hidden;
+  }
+  button{
+    margin: 0px 1px; 
+    padding: 5px 18px;
+    color: grey;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 3px;
+    background: rgba(75, 75, 75, 0.575);
+  }
+  .header{
+    height: 100px;
+    background-image: radial-gradient(400px 80px at 0px top, rgba(183, 96, 240, .3), transparent);
+
+  }
+  .header>img{
+    margin: 10px;
+    width: 48px;
+    transform: rotate(-30deg);
+    vertical-align: middle;
+  }
+  .header>span{
+    vertical-align: middle;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: white;
+  }
+  .header>p{
+    margin-left: 10px;
+    transform: translateY(-20px);
+    font-size: 12px;
+    color: white;
+  }
+  .serachBar{
+    height: 50px;
+    background: rgba(39,42,44,.75);
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+  }
+  .serachBar>div{
+    display: inline-block;
+    padding: 1px;
+    height: 35px;
+    background: rgba(30,30,30,.5);
+    display: flex;
+    border-radius: 2px;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  
+  .serachBar>.serach_category_button>.active{
+    background-color: #5e5e5e;
+    background-image: linear-gradient(to bottom,#777 0,#444 100%);
+    color: #fff;
+  }
+  .serach_resolution_button{
+    position: relative;
+    
+  }
+  .serach_resolution_button:hover{
+    animation: show .5s;
+    animation-fill-mode: forwards;
+  }
+  .serach_resolution_button>p{
+    
+    margin: 0px 1px; 
+    height: 29px;
+    padding:0 20px;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 29px;
+  }
+  .serach_resolution_button>p>img{
+    width: 12px;
+    margin-left:5px;
+    transform:rotate(-180deg);
+  } 
+  .serach_resolution_button>p>.active{
+    transform: rotate(0);
+  }
+  .serach_resolution_button>span{
+    display: inline-block;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    width: 120px;
+    border-left: 1px solid white;
+  }
+  .serach_date_button{
+    position: relative;
+  }
+  .serach_date_button>p{
+    margin: 0px 1px; 
+    height: 29px;
+    padding:0 20px;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 29px;
+  }
+  .serach_date_button>span{
+    display: inline-block;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    width: 60px;
+    border-left: 1px solid white;
+  }
+  .serach_date_button:hover{
+    animation: show .5s;
+    animation-fill-mode: forwards;
+  }
+  .serach_date_button>p>img{
+    width: 12px;
+    margin-left:5px;
+    transform:rotate(-180deg);
+  }
+  .serach_date_button>p>.active{
+    transform: rotate(0);
+    
+  }
+
+  .content{
+    height: calc(100% - 150px);
+    overflow: scroll;
+    
+    padding: 20px 0px;
+
+  }
+  
+  .content>.page{
+    
+  }
+  .content>.page>.title{
+    width: 98%;
+    height: 80px;
+    margin-left: 1%;
+
+    line-height: 80px;
+    color: rgb(173, 173, 173);
+    font-size: 10px;
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+  }
+  .content>.page>.title span{
+    font-size: 16px;
+    color: white;
+  }
+  .content>.page>.title>.line{
+    width: 92%;
+    border: .5px solid rgb(170, 170, 170);
+    margin-left: 16px;
+  }
+  .content>.page>.imgListBox{
+    width: 90%;
+    margin-left: 5%;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .content>.page>.imgListBox>.imgBox{
+    margin: 10px 5px;
+    position: relative;
+  }
+  .content>.page>.imgListBox>.imgBox:hover>.backboard{
+    animation: showBoard .3s;
+    animation-fill-mode: forwards;
+  }
+  .content>.page>.imgListBox>.imgBox>.backboard{
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.66);
+    z-index: 1;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    line-height: 30px;
+    opacity: 0;
+  }
+  .content>.page>.imgListBox>.imgBox>.backboard>span{
+    vertical-align: middle;
+  }
+  .content>.page>.imgListBox>.imgBox>.backboard>.download{
+    position: absolute;
+    width: 20px;
+    bottom: 5px;
+    right: 4px;
+    cursor: pointer;
+  }
+  .content>.page>.imgListBox>.imgBox:hover .choose{
+    animation: showBoard .3s;
+    animation-fill-mode: forwards;
+
+  }
+  .content>.page>.imgListBox>.imgBox> .choose{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 5px;
+    right: 4px;
+    cursor:pointer;
+    background: rgba(221, 221, 221, 0.75);
+    border-radius: 3px;
+    opacity: 0;
+    
+  }
+  .content>.page>.imgListBox>.imgBox>.active{
+    background-image: url('../img/选择.png');
+    background-size: 20px;
+  }
+
+  .optionsBox{
+    background: rgba(50, 50, 50, 1);
+    position: absolute;
+    top: 35px;
+    left: 0px;
+    border-radius: 2px;
+    display: none;
+    z-index: 2;
+  }
+  .serach_resolution_button>.optionsBox{
+     
+    width: 500px;
+    height: 300px;
+    
+    
+  }
+  .serach_resolution_button>.active{
+    display: block;
+    
+  }
+  .serach_resolution_button>.optionsBox>div{
+    width: 100%;
+   
+    display: flex;
+    justify-content:center;
+    flex-wrap: wrap;
+  }
+  .serach_resolution_button>.optionsBox>div>span{
+    width: 15%;
+    margin: 0 2.5%;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+  }
+  .serach_resolution_button>.optionsBox .default{
+    width: 96%;
+    margin:10px 2%;
+  }
+  .serach_resolution_button>.optionsBox>div>.active{
+    background-color: #5e5e5e;
+    background-image: linear-gradient(to bottom,#777 0,#444 100%);
+    color: #fff;
+  }
+  .serach_resolution_button>.optionsBox>div>div{
+    width: 15%;
+    margin: 0 2.5%;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+
+  }
+  .serach_resolution_button>.optionsBox>div>div>button{
+    padding: 0 0;
+    width: 80px;
+    height: 30px;
+    margin: 5px 0;
+  }
+  .serach_resolution_button>.optionsBox>div>div>.active{
+    background-color: #5e5e5e;
+    background-image: linear-gradient(to bottom,#777 0,#444 100%);
+    color: #fff;
+  }
+  .serach_date_button>.optionsBox{
+    width: 109px;
+    
+    
+  }
+  .serach_date_button>.active{
+    display: block;
+  }
+  .serach_date_button>.optionsBox>button{
+    width: 92%;
+    margin: 2px 4%;
+    
+  }
+  .serach_date_button>.optionsBox>.active{
+    background-color: #5e5e5e;
+    background-image: linear-gradient(to bottom,#777 0,#444 100%);
+    color: #fff;
+  }
+  .serachBar>.refresh{
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    background: rgb(71, 141, 0);
+    cursor: pointer;
+  }
+  .serachBar>.refresh:hover img{
+    animation: turn 1s;
+    
+  }
+  .refresh>img{
+    
+    width: 16px;
+  }
+  .serachBar>.download{
+    
+    height: 30px;
+    text-align: center;
+    background: rgb(255, 115, 0);
+    cursor: pointer;
+    padding: 5px 20px;
+  }
+  .download>img{
+    width: 20px;
+    padding: 0 5px;
+  }
+  .download>span{
+    color: white;
+    
+  }
