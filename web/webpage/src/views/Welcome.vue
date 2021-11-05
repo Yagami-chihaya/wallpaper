@@ -31,8 +31,8 @@ export default {
     cover_init(){
       get_data().get('/showalldata').then(res=>{
         console.log(res.data);
-        for(let item of res.data){
-          this.url_list.push(item[5])
+        for(let index=0;index<(res.data.length-parseInt(res.data.length*0.75));index++){
+          this.url_list.push(res.data[index][5])
         }
         console.log(this.url_list);
         console.log(this.url_list.length);
@@ -44,17 +44,16 @@ export default {
       let h = 0
       setTimeout(()=>{
         h = document.getElementById('preBox').offsetHeight
-        console.log(h);
+        
         let movedown = setInterval(() => {
           
           let offsetY = document.getElementById('preBox').offsetTop
-          console.log(offsetY);
-          console.log(h);
+          
           if(offsetY<-h+800){
             clearInterval(movedown)
           }
           document.getElementById('preBox').style.top = `${offsetY-1 }px`
-        }, 20);
+        }, 18);
       },5000)
     },
     start(){

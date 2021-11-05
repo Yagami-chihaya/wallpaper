@@ -30,7 +30,7 @@ export default {
 }
   .backTop{
     position: fixed;
-    bottom: 20px;
+    bottom: 90px;
     right: 40px;
     width: 40px;
     height: 40px;

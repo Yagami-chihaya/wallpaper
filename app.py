@@ -6,7 +6,7 @@ from flask import Flask
 from flask import request
 import src.picture as main
 import src.lib.database as db
-
+import os
 
 
 app = Flask(__name__)
@@ -44,6 +44,11 @@ def download_data():
     pid = request.args.get('pid')
 
     return db.download_data(pid)
+
+@app.route('/checkfile')
+def check_file():
+    os.startfile("pictures")
+    return '查看成功'
 
 if __name__ == '__main__':
     app.run()

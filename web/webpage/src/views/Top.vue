@@ -30,7 +30,7 @@
         <span>{{current_date}}</span>
       </div>  
       <div class="refresh" @click="serachRefresh"><img src="../assets/img/refresh.png"></div>
-      <div class="download" ><img src="../assets/img/下载.png"><span>DOWNLOAD</span></div>
+      <div class="download" :class="{active:isActive_download}" @click="showDownloadBox"><img src="../assets/img/下载.png"><span>{{isActive_download?'LOADING':'DOWNLOAD'}}</span></div>
     </div>
       
     <div class="content" ref="content">
@@ -56,7 +56,15 @@
       </div>
     </div>
     <back-top @click="backTop"></back-top>
-    <download-alert :isDownload="isDownload"></download-alert>
+    <download-alert></download-alert>
+    <download-box :chooseNum="choose_list.length" :class="{downloadBoxActive:choose_list.length>=1||isShowDownloadBox,downloadBoxDeactive:choose_list.length==0&&!isShowDownloadBox}" >
+      <template v-slot:function>
+        <div class="function" @click="fullselect"><div class="chooseBox"><img src="../assets/img/全选.png"></div>全选</div>
+        <div class="function" @click="reverseSelect"><div class="chooseBox"><img src="../assets/img/反选.png"></div>反选</div>
+        <div class="function" @click="clearSelect"><div class="chooseBox"><img src="../assets/img/清空.png"></div>清空</div>
+        <div class="function" @click="downloadSelect"><div class="chooseBox"><img src="../assets/img/下载.png"></div>下载</div>
+      </template>
+    </download-box>
   </div>
 </template>
 
@@ -64,6 +72,7 @@
 import {get_data} from '../network/request.js'
 import backTop from '../components/BackTop.vue'
 import downloadAlert from '../components/DownloadAlert.vue'
+import downloadBox from '../components/DownloadBox.vue'
 
 export default {
   el: '',
@@ -91,6 +100,8 @@ export default {
       resolution_all_list:[],   //存储所有图片的分辨率信息
       pid_list:[],
       choose_list:[],
+      isShowDownloadBox:false,
+      isActive_download:false,
     }
   },
   methods: {
@@ -197,14 +208,20 @@ export default {
       this.$refs.content.scrollTop = 0
     },
     download(pid){
+      this.isActive_download = true
+      console.log('开始下载了');
       this.$store.state.isDownload = true
       setTimeout(()=>{
         this.$store.state.isDownload = false
       },2000)
       console.log(this.$store.state.isDownload);
       get_data().get('/download',{params:{pid:pid}}).then(res=>{
+        console.log(res);
+        this.isActive_download = false
+      }).catch(()=>{
         
       })
+      
     },
     choose(pid){
       if(this.choose_list.indexOf(pid)==-1){
@@ -212,7 +229,11 @@ export default {
       }else{
         this.choose_list.splice(this.choose_list.indexOf(pid),1)
       }
+      console.log(this.choose_list);
+      this.isShowChooseBox()
       
+    },
+    isShowChooseBox(){
       if(this.choose_list.length>=1){
         for(let item of document.getElementsByClassName('backboard')){
           item.setAttribute('style','opacity:1 !important')
@@ -220,13 +241,107 @@ export default {
         for(let item of document.getElementsByClassName('choose')){
           item.setAttribute('style','opacity:1 !important')
         }
+        this.isShowDownloadBox = true
+      }else {
+        for(let item of document.getElementsByClassName('backboard')){
+          item.setAttribute('style','')
+        }
+        for(let item of document.getElementsByClassName('choose')){
+          item.setAttribute('style','')
+        }
+        this.isShowDownloadBox = false
       }
+    },
+    showDownloadBox(){
+      if(this.isShowDownloadBox){
+        for(let item of document.getElementsByClassName('backboard')){
+          item.setAttribute('style','')
+        }
+        for(let item of document.getElementsByClassName('choose')){
+          item.setAttribute('style','')
+        }
+      }else{
+        for(let item of document.getElementsByClassName('backboard')){
+          item.setAttribute('style','opacity:1 !important')
+        }
+        for(let item of document.getElementsByClassName('choose')){
+          item.setAttribute('style','opacity:1 !important')
+        }
+      }
+      
+      this.isShowDownloadBox = !this.isShowDownloadBox
+    },
+    fullselect(){
+      
+      this.choose_list = []
+    
+      for(let item of this.pid_list){
+        for(let item2 of item){
+          this.choose_list.push(item2)
+        }
+        
+      }
+      
+      console.log(this.choose_list);
+      this.isShowChooseBox()
+    },
+    reverseSelect(){
+      let last_choose_list = this.choose_list
+      this.choose_list = []
+      console.log(this.choose_list);
+      for(let item of this.pid_list){
+        for(let item2 of item){
+          if(last_choose_list.indexOf(item2)==-1  )
+          this.choose_list.push(item2)
+        }
+        
+      }
+    },
+    clearSelect(){
+      this.choose_list = []
+    },
+    downloadSelect(){
+      this.$store.state.isDownload = true
+      this.isActive_download = true
+      
+      function p(pid,arr,index){
+        
+        return new Promise((resolve,reject)=>{
+ 
+          get_data().get('/download',{params:{pid:pid}}).then(()=>{
+            if(index+1<arr.length){
+              pid = arr[index+1]
+
+              console.log(pid);
+              resolve(p(pid,arr,index+1))
+            }else {
+              
+              reject(1)
+            }
+            
+          })
+        })
+      } 
+      
+      
+      p(this.choose_list[0],this.choose_list,0).catch(res=>{
+        this.isActive_download = false
+        setTimeout(()=>{
+          this.$store.state.isDownload = false
+        },2000)
+        
+      })
+      
+
+      
+
     }
 
   },
   components:{
     backTop,
     downloadAlert,
+    downloadBox
   },
   created(){
     //this.cover_init()

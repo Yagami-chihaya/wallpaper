@@ -90,3 +90,5 @@ def download_data(pid):
     page = result[0][4]
     # 数据保存本地并返回信息
     return download.download_pictures(url, categories, page, pid)
+
+

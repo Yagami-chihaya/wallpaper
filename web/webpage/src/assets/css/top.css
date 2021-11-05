@@ -24,6 +24,47 @@
     opacity: 1;
   }
 }
+@keyframes downloadBoxActive{
+  0%{
+
+  }
+  100%{
+    transform: translateY(-80px);
+  }
+}
+@keyframes downloadBoxDeactive {
+  0%{
+    transform: translateY(-80px);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+@keyframes downloading{
+  0%{
+    background: rgb(255, 115, 0);
+  }
+  100%{
+    background-color: green;
+  }
+}
+
+@keyframes downloading_img{
+  0%{
+
+  }
+  49%{
+    transform:translateY(30px)
+  }
+  50%{
+    transform: translateY(-30px);
+  }
+  100%{
+    transform: translateY(0);
+  }
+  
+}
+
   #nav{
     background: url('../img/bg-dark-grain.png');
     overflow: hidden;
@@ -342,12 +383,21 @@
     width: 16px;
   }
   .serachBar>.download{
-    
+
     height: 30px;
     text-align: center;
     background: rgb(255, 115, 0);
     cursor: pointer;
     padding: 5px 20px;
+    overflow: hidden;
+  }
+  .serachBar>.active{
+    animation: downloading 1s;
+    animation-fill-mode: forwards;
+  }
+  .serachBar>.active>img{
+    animation: downloading_img 1s infinite;
+    
   }
   .download>img{
     width: 20px;
@@ -356,4 +406,43 @@
   .download>span{
     color: white;
     
+  }
+
+  .downloadBoxActive{
+    animation: downloadBoxActive 1s;
+    animation-fill-mode: forwards;
+  }
+  .downloadBoxDeactive{
+    animation: downloadBoxDeactive 1s;
+    animation-fill-mode: forwards;
+  }
+  .downloadBox>.function{
+    
+    background: rgb(59, 59, 59);
+    
+    height: 30px;
+    line-height: 30px;
+    padding: 5px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .downloadBox>.function:hover{
+    background: rgb(165, 165, 165);
+    color: black;
+  }
+  .downloadBox>.function>.chooseBox{
+    width: 18px;
+    height: 18px;
+   
+    
+   
+    margin-right: 5px;
+  }
+  .downloadBox>.function>.chooseBox>img{
+    width: 100%;
+    margin: 50% 50%;
+    transform: translate(-50%,-50%);
   }
