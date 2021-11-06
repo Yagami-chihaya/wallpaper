@@ -41,7 +41,7 @@
         </div>
         <div class="imgListBox">
           <div class="imgBox" v-for="(item2,index2) in item" :key="index2">
-            <img :src="item2">
+            <img :src="item2" @click="showPicture(pid_list[index][index2])">
             <div class="backboard">
               <span>{{resolution_all_list[index][index2]}}</span>
               <img class="download" src="../assets/img/下载little.png" @click="download(pid_list[index][index2])">
@@ -73,6 +73,7 @@ import {get_data} from '../network/request.js'
 import backTop from '../components/BackTop.vue'
 import downloadAlert from '../components/DownloadAlert.vue'
 import downloadBox from '../components/DownloadBox.vue'
+
 
 export default {
   el: '',
@@ -322,8 +323,6 @@ export default {
           })
         })
       } 
-      
-      
       p(this.choose_list[0],this.choose_list,0).catch(res=>{
         this.isActive_download = false
         setTimeout(()=>{
@@ -331,10 +330,11 @@ export default {
         },2000)
         
       })
-      
 
-      
-
+    },
+    showPicture(id){
+      this.$router.push('/picture_detail')
+      this.$store.state.pid = id
     }
 
   },

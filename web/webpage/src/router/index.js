@@ -11,6 +11,11 @@ const routes = [
     path:'/top',
     name:'Top',
     component:()=>import('../views/Top.vue')
+  },
+  {
+    path:'/picture_detail',
+    name:'Picture_detail',
+    component:()=>import('../views/Picture_detail.vue')
   }
 ]
 
