@@ -15,7 +15,7 @@ def request_picture(page, categories, topRange):
     url = "https://wallhaven.cc/search?"
     parmas = {
         "categories": categories,
-        "purity": '110',  # 请勿更改
+        "purity": '100',  # 请勿更改
         "topRange": topRange,
         "sorting": "toplist",
         "order": "desc",
@@ -82,6 +82,7 @@ def update(pagetotal, type, date):  # 更新数据库数据
 
 def update_all():
     # 新建数据库
+    '''
     db.drop_table()
     db.create_table()
 
@@ -105,7 +106,7 @@ def update_all():
     update(10, '100', '1w')
     update(10, '001', '1w')
     update(10, '010', '1w')
-    update(10, '110', '1w')
+    update(10, '110', '1w')'''
     update(10, '101', '1w')
     update(10, '011', '1w')
 

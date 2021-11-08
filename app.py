@@ -39,6 +39,11 @@ def show_data():
     page = request.args.get('page')
     return db.show_data(category,resolution,date,page)
 
+@app.route('/showimg')
+def show_img():
+    pid = request.args.get('pid')
+    return db.show_img(pid)
+
 @app.route('/download')
 def download_data():
     pid = request.args.get('pid')
@@ -49,6 +54,12 @@ def download_data():
 def check_file():
     os.startfile("pictures")
     return '查看成功'
+
+@app.route('/setwallpaper')
+def set_wallpaper():
+    pid = request.args.get('pid')
+    return db.set_wallpaper(pid)
+
 
 if __name__ == '__main__':
     app.run()

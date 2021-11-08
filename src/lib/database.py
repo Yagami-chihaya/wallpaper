@@ -78,6 +78,14 @@ def show_data(category, resolution, date,page):
     print(result)
     return result
 
+def show_img(pid):
+    sql = 'select * from url_path where pid=%s'%pid
+    cur.execute(sql)
+    result = json.dumps(cur.fetchall())
+    print(result)
+    return result
+
+
 
 def download_data(pid):
     # 根据pid查询数据库
@@ -91,4 +99,15 @@ def download_data(pid):
     # 数据保存本地并返回信息
     return download.download_pictures(url, categories, page, pid)
 
+def set_wallpaper(pid):
+    # 根据pid查询数据库
+    sql = 'select * from url_path where pid=%s' % pid
+    cur.execute(sql)
+    # 提取数据
+    result = cur.fetchall()
+    url = result[0][1]
+    categories = result[0][2]
+    page = result[0][4]
+    # 数据保存本地并返回信息
+    return download.set_wallpaper(url, categories, page, pid)
 
