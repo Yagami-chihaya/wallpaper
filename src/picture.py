@@ -4,10 +4,10 @@ sys.path.append('.')
 
 import requests
 from lxml import etree
-import os
 
-import src.lib.database as db
-import src.lib.download as download
+
+import lib.database as db
+
 from time import sleep
 
 
