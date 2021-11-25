@@ -6,7 +6,10 @@ from flask import Flask
 from flask import request
 import picture as main
 import lib.database as db
+import lib.imgHandle as h
+import lib.check_sexy_img as csi
 import os
+
 
 
 app = Flask(__name__)
@@ -60,6 +63,26 @@ def set_wallpaper():
     pid = request.args.get('pid')
     return db.set_wallpaper(pid)
 
+@app.route('/to_gray')
+def to_gray():
+    pid = request.args.get('pid')
+    return h.to_gray(pid)
+
+@app.route('/to_gaussianBlur')
+def to_gaussianBlur():
+    pid = request.args.get('pid')
+    return h.to_gaussianBlur(pid)
+
+@app.route('/to_classical')
+def to_classical():
+    pid = request.args.get('pid')
+    return h.to_classical(pid)
+
+@app.route('/check_sexy')
+def check_sexy():
+    pid = request.args.get('pid')
+    return csi.check(pid)
 
 if __name__ == '__main__':
     app.run()
+

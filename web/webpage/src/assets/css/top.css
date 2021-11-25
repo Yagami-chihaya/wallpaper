@@ -202,7 +202,7 @@
   }
   
   .content>.page{
-    
+    position: relative;
   }
   .content>.page>.title{
     width: 98%;
@@ -224,6 +224,10 @@
     width: 92%;
     border: .5px solid rgb(170, 170, 170);
     margin-left: 16px;
+  }
+  .content>.page>.preview{
+    position: absolute;
+    right: 1%;
   }
   .content>.page>.imgListBox{
     width: 90%;
