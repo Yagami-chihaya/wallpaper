@@ -1,5 +1,8 @@
 <template>
-  <div id="nav">
+  <div v-loading="loading" element-loading-text="Loading..."
+    :element-loading-spinner="svg"
+    element-loading-svg-view-box="-10, -10, 50, 50"
+    element-loading-background="rgba(0, 0, 0, 0.8)" id="nav">
     <div class="header">
       <img src="../assets/img/钻石.png">
       <span>排行榜</span>
@@ -7,7 +10,7 @@
     </div>
     <div class="serachBar">
       <div class="serach_category_button">
-        <button v-for="(item,index) in category_list" :key="index" :class="{active:isActive_category.indexOf(index)!=-1}" @click="categoryChange(index)">{{item}}</button>
+        <button v-for="(item,index) in category_list" :key="index" :class="{active:$store.state.isActive_category.indexOf(index)!=-1}" @click="categoryChange(index)">{{item}}</button>
       </div>
       <div class="serach_resolution_button">
         <p @click="resolutionBoxOpen">分辨率<img :class="{active: isActive_resolution}" src="../assets/img/上.png"></p>
@@ -19,7 +22,7 @@
           </div>
           
         </div>
-        <span>{{current_resolution}}</span>
+        <span>{{$store.state.current_resolution}}</span>
         
       </div>
       <div class="serach_date_button">
@@ -27,21 +30,24 @@
         <div class="optionsBox" :class="{active:isActive_date}">
           <button v-for="(item,index) in date_list" :key="index" :class="{active:isActive_date_button==index}" @click="dateChange(index,item)">{{item}}</button>
         </div>
-        <span>{{current_date}}</span>
+        <span>{{$store.state.current_date}}</span>
       </div>  
       <div class="refresh" @click="serachRefresh"><img src="../assets/img/refresh.png"></div>
       <div class="download" :class="{active:isActive_download}" @click="showDownloadBox"><img src="../assets/img/下载.png"><span>{{isActive_download?'LOADING':'DOWNLOAD'}}</span></div>
     </div>
-      
+ 
     <div class="content" ref="content">
+      
       <div v-for="(item,index) in url_list" :key='index' class="page">
         <div class="title">
           <h2>page <span>{{index+1}}</span>/{{Math.ceil((pre_length/24))}}</h2>
           <div class="line"></div>
         </div>
+        
+        
         <div class="imgListBox">
           <div class="imgBox" v-for="(item2,index2) in item" :key="index2">
-            <img :src="item2" @click="showPicture(pid_list[index][index2])">
+            <el-image :src="item2" @click="showPicture(pid_list[index][index2])" lazy></el-image>
             <div class="backboard">
               <span>{{resolution_all_list[index][index2]}}</span>
               <img class="download" src="../assets/img/下载little.png" @click="download(pid_list[index][index2])">
@@ -73,13 +79,13 @@ import {get_data} from '../network/request.js'
 import backTop from '../components/BackTop.vue'
 import downloadAlert from '../components/DownloadAlert.vue'
 import downloadBox from '../components/DownloadBox.vue'
-
+import { ElNotification } from 'element-plus'
 
 export default {
   el: '',
   data () {
     return {
-      isActive_category:[0,1,2],
+      
       isActive_resolution:false,
       isActive_date:false,
       category_list:['风景','动漫','人'],
@@ -96,23 +102,23 @@ export default {
       isActive_resolution_default1:false,
       date_list:['一天','三天','一周','一个月','三个月','半年','一年'],
       isActive_date_button:0,
-      current_resolution:'默认',
-      current_date:'一年',
+      
       resolution_all_list:[],   //存储所有图片的分辨率信息
       pid_list:[],
       choose_list:[],
       isShowDownloadBox:false,
       isActive_download:false,
+      loading:false,
     }
   },
   methods: {
     categoryChange(index){
-      console.log(this.isActive_category.indexOf(index));
-      if(this.isActive_category.indexOf(index)!=-1){
-        this.isActive_category.splice(this.isActive_category.indexOf(index),1)
+      console.log(this.$store.state.isActive_category.indexOf(index));
+      if(this.$store.state.isActive_category.indexOf(index)!=-1){
+        this.$store.state.isActive_category.splice(this.$store.state.isActive_category.indexOf(index),1)
         console.log(this.isActive_category);
       }else{
-        this.isActive_category.push(index)
+        this.$store.state.isActive_category.push(index)
       }
     },
     resolutionBoxOpen(){
@@ -124,54 +130,53 @@ export default {
     resolutionChange(index,index2,item){
       this.isActive_resolution_button = [index,index2]
       if(!this.isActive_resolution_default1){
-        this.current_resolution = item
+        this.$store.state.current_resolution = item
       }
       
     },
     defaultChange(){
       this.isActive_resolution_default1 = !this.isActive_resolution_default1
-      this.current_resolution = '默认'
+      this.$store.state.current_resolution = '默认'
     },
     dateChange(index,item){
       this.isActive_date_button = index
-      this.current_date = item
+      this.$store.state.current_date = item
     },
     serachRefresh(){
+      
+      this.loading = true
       this.url_list = []
       this.resolution_all_list = []
       this.pid_list = []
       let category = ''
       let resolution = ''
-      let date = this.current_date
+      let date = this.$store.state.current_date
 
-      if(this.isActive_category.indexOf(0)!=-1){
+      
+      if(this.$store.state.isActive_category.indexOf(0)!=-1){
         category+=1
       }else{category+=0}
-      if(this.isActive_category.indexOf(1)!=-1){
+      if(this.$store.state.isActive_category.indexOf(1)!=-1){
         category+=1
       }else{category+=0}
-      if(this.isActive_category.indexOf(2)!=-1){
+      if(this.$store.state.isActive_category.indexOf(2)!=-1){
         category+=1
       }else{category+=0}
       
-      if(this.current_resolution=='默认'){
+      if(this.$store.state.current_resolution=='默认'){
         resolution=''
       }else{
-        resolution=this.current_resolution
+        resolution=this.$store.state.current_resolution
       }
 
-      if(this.current_date=='一天'){date='1d'}
-      else if(this.current_date=='三天'){date='3d'}
-      else if(this.current_date=='一周'){date='1w'}
-      else if(this.current_date=='一个月'){date='1M'}
-      else if(this.current_date=='三个月'){date='3M'}
-      else if(this.current_date=='半年'){date='6M'}
-      else if(this.current_date=='一年'){date='1y'}
+      if(this.$store.state.current_date=='一天'){date='1d'}
+      else if(this.$store.state.current_date=='三天'){date='3d'}
+      else if(this.$store.state.current_date=='一周'){date='1w'}
+      else if(this.$store.state.current_date=='一个月'){date='1M'}
+      else if(this.$store.state.current_date=='三个月'){date='3M'}
+      else if(this.$store.state.current_date=='半年'){date='6M'}
+      else if(this.$store.state.current_date=='一年'){date='1y'}
 
-
-      console.log(category);
-      console.log(resolution);
-      console.log(date);
 
       get_data().get('showdata',{params:{category,resolution,date}}).then(res=>{
         console.log(res.data);
@@ -199,6 +204,7 @@ export default {
         this.url_list = new_url_arr
         this.resolution_all_list = new_resolution_arr
         this.pid_list = new_pid_arr
+        this.loading = false
         console.log(this.url_list);
         console.log(this.resolution_all_list);
         console.log(this.pid_list);
@@ -209,8 +215,13 @@ export default {
       this.$refs.content.scrollTop = 0
     },
     download(pid){
+      ElNotification({
+        title: 'Info',
+        message: '开始下载~~',
+        type: 'info',
+      })
       this.isActive_download = true
-      console.log('开始下载了');
+      
       this.$store.state.isDownload = true
       setTimeout(()=>{
         this.$store.state.isDownload = false
@@ -219,6 +230,11 @@ export default {
       get_data().get('/download',{params:{pid:pid}}).then(res=>{
         console.log(res);
         this.isActive_download = false
+        ElNotification({
+        title: 'Success',
+        message: '下载完成！',
+        type: 'success',
+      })
       }).catch(()=>{
         
       })
@@ -302,6 +318,11 @@ export default {
       this.choose_list = []
     },
     downloadSelect(){
+      ElNotification({
+        title: 'Info',
+        message: '开始下载~~',
+        type: 'info',
+      })
       this.$store.state.isDownload = true
       this.isActive_download = true
       
@@ -324,6 +345,11 @@ export default {
         })
       } 
       p(this.choose_list[0],this.choose_list,0).catch(res=>{
+        ElNotification({
+          title: 'Success',
+          message: '全部下载完成！',
+          type: 'success',
+        })
         this.isActive_download = false
         setTimeout(()=>{
           this.$store.state.isDownload = false

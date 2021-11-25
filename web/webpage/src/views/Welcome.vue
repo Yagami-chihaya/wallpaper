@@ -1,11 +1,20 @@
 <template>
-  <div id="nav">
+  <div v-loading="loading" element-loading-text="Loading..."
+    :element-loading-spinner="svg"
+    element-loading-svg-view-box="-10, -10, 50, 50"
+    element-loading-background="rgba(0, 0, 0, 0.8)" id="nav">
     <div class="showBox">
       <div class='black'>
-        <img src="../assets/img/black.png">
+        <img  src="../assets/img/black.png">
       </div>
-      <div class="preBox" ref="preBox" id="preBox" @click="move">
-        <img v-for="item in url_list" :key="item" :src="item">
+      <div  class="preBox" ref="preBox" id="preBox" @click="move">
+        <div v-for="item in url_list" :key="item" style="margin:0;padding:0;">
+          <img  v-if="item" :src="item">
+        
+          <el-empty v-else description="description"></el-empty>
+        </div>
+        
+        
       </div>
       <div class="startBox">
         <p class="title">🌈开始你的壁纸之旅</p>
@@ -25,10 +34,12 @@ export default {
     return {
       url_list:[],
       pre_length:0,
+      loading:false,
     }
   },
   methods: {
     cover_init(){
+      this.loading = true
       get_data().get('/showalldata').then(res=>{
         console.log(res.data);
         for(let index=0;index<(res.data.length-parseInt(res.data.length*0.75));index++){
@@ -37,7 +48,7 @@ export default {
         console.log(this.url_list);
         console.log(this.url_list.length);
         this.pre_length=this.url_list.length
-        
+        this.loading = false
       })
     },
     move(){
@@ -98,10 +109,14 @@ export default {
     animation: show 3s;
     
   }
-  .preBox>img{
-    flex: 1;
-    width: 300px;
+  .preBox>div{
+    
+    width: 20%;
     height: 200px;
+  }
+  .preBox>div>img{
+    width: 100%;
+    height: 100%;
   }
   .black{
     width: 100%;
@@ -134,6 +149,7 @@ export default {
     font-size: 2.5rem;
   }
   .startBox>.button{
+    
     width: 120px;
     height: 40px;
     background: rgb(160, 160, 160);

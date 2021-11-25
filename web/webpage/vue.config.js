@@ -12,5 +12,17 @@ module.exports = {
           filename: 'index.html',
           chunks: ['chunk-vendors', 'chunk-common', 'index']
       }
+  },
+  configureWebpack:{
+    module:{
+      rules:[
+        {
+          test:/\.mjs$/,
+          include:/node_modules/,
+          type:"javascript/auto"
+        }
+      ]
+    }
   }
+  
 };

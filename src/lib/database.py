@@ -53,24 +53,22 @@ def show_all_data():
     return result
 
 
-def show_data(category, resolution, date,page):
-    sql=''
-    if(page==None):
-        if(resolution==''):
+def show_data(category, resolution, date, page):
+    sql = ''
+    if (page == None):
+        if (resolution == ''):
             sql = "select * from url_path where category=\'%s\' and top_range=\'%s\'" % (
-            category, date)
+                category, date)
         else:
             sql = "select * from url_path where category=\'%s\' and resolution=\'%s\' and top_range=\'%s\'" % (
-            category, resolution, date)
+                category, resolution, date)
     else:
         if (resolution == ''):
             sql = "select * from url_path where category=\'%s\' and top_range=\'%s\' and current_page=\'%s\' " % (
-                category, date,page)
+                category, date, page)
         else:
             sql = "select * from url_path where category=\'%s\' and resolution=\'%s\' and top_range=\'%s\' and current_page=\'%s\' " % (
                 category, resolution, date, page)
-
-
 
     print(sql)
     cur.execute(sql)
@@ -78,13 +76,13 @@ def show_data(category, resolution, date,page):
     print(result)
     return result
 
+
 def show_img(pid):
-    sql = 'select * from url_path where pid=%s'%pid
+    sql = 'select * from url_path where pid=%s' % pid
     cur.execute(sql)
     result = json.dumps(cur.fetchall())
     print(result)
     return result
-
 
 
 def download_data(pid):
@@ -99,6 +97,7 @@ def download_data(pid):
     # 数据保存本地并返回信息
     return download.download_pictures(url, categories, page, pid)
 
+
 def set_wallpaper(pid):
     # 根据pid查询数据库
     sql = 'select * from url_path where pid=%s' % pid
@@ -110,4 +109,3 @@ def set_wallpaper(pid):
     page = result[0][4]
     # 数据保存本地并返回信息
     return download.set_wallpaper(url, categories, page, pid)
-
