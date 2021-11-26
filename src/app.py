@@ -1,9 +1,7 @@
-import sys
-sys.path.append('.')
-
 
 from flask import Flask
 from flask import request
+
 import picture as main
 import lib.database as db
 import lib.imgHandle as h

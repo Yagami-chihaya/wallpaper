@@ -15,7 +15,7 @@ def request_picture(page, categories, topRange):
     url = "https://wallhaven.cc/search?"
     parmas = {
         "categories": categories,
-        "purity": '100',  # 请勿更改
+        "purity": '010',  # 请勿更改
         "topRange": topRange,
         "sorting": "toplist",
         "order": "desc",
@@ -47,11 +47,17 @@ def request_picture(page, categories, topRange):
     proxies = {
 
     }
-    try:
-        response = requests.get(url=url, params=parmas, headers=headers, proxies=proxies, timeout=20).text
-    except:
-        sleep(1)
-        response = requests.get(url=url, params=parmas, headers=headers, proxies=proxies, timeout=20).text
+    #try:
+    sleep(2)
+    response = requests.get(url=url, params=parmas, headers=headers, proxies=proxies, timeout=20).text
+    print("当前page:")
+    print(page)
+
+    # except:
+    #     print("当前出错page:")
+    #     print(page)
+    #     sleep(1)
+    #     response = requests.get(url=url, params=parmas, headers=headers, proxies=proxies, timeout=20).text
 
     tree = etree.HTML(response)
     pre_pic_list = tree.xpath("//img[@alt='loading']/@data-src")
@@ -83,7 +89,7 @@ def request_picture(page, categories, topRange):
             picture_src1 = newtree.xpath("//img[@id='wallpaper']/@src")[0]
         except:
             print("重新获取数据")
-            sleep(2)
+            sleep(1)
             try:  # 失败则重新爬取数据
 
                 picture_web = requests.get(url=picture_src, headers=headers, timeout=20).text
@@ -127,11 +133,12 @@ def update(pagetotal, type, date):  # 更新数据库数据
 def update_all():
     # 新建数据库
 
-    db.drop_table()
-    db.create_table()
+    # db.drop_table()
+    # db.create_table()
+    #
+    # update(10, '111', '1y')
+    # update(10, '100', '1y')
 
-    update(10, '111', '1y')
-    update(10, '100', '1y')
     update(10, '001', '1y')
     update(10, '010', '1y')
     update(10, '110', '1y')

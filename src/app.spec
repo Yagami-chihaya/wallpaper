@@ -1,10 +1,9 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-
 block_cipher = None
 
 
-a = Analysis(['app.py','picture.py','./lib/database.py','./lib/download.py','./lib/imgHandle.py','./config/databaseConfig.py'],
+a = Analysis(['app.py','picture.py','./lib/database.py','./lib/download.py','./lib/imgHandle.py','./lib/check_sexy_img.py','./config/databaseConfig.py'],
              pathex=['G:\\python\\bizhi(new)\\src'],
              binaries=[],
              datas=[],
