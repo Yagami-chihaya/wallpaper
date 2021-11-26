@@ -243,6 +243,14 @@ export default {
     choose(pid){
       if(this.choose_list.indexOf(pid)==-1){
         this.choose_list.push(pid)
+        get_data().get('/check_sexy',{params:{pid:pid}}).then(res=>{
+          ElNotification({
+            title:res.data>1?'Error':'Success',
+            message: res.data>1?"该图片可能包含不良内容！！":"此图片安全",
+            type: res.data>1?'error':'success',
+          })
+        })
+
       }else{
         this.choose_list.splice(this.choose_list.indexOf(pid),1)
       }
