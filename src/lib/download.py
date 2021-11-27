@@ -34,7 +34,7 @@ def download_pictures(url, categories, page, pid, headers=headers):
         print(url + "下载完成 大小为:" + str(round(os.path.getsize(picture_path) / 1024 / 1024, 2)) + "M 耗时" + str(
             round(end_time - start_time)) + "秒")
         os.startfile(download_path)
-    return picture_name
+    return picture_data
 
 
 def set_wallpaper(url, categories, page, pid, headers=headers):

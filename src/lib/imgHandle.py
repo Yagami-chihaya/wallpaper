@@ -1,10 +1,13 @@
 import sys
 
+
+
 sys.path.append("..")
 
 import re
 
 import cv2 as cv
+print(cv.__file__)
 import numpy as np
 import src.lib.database as db
 import getpass
