@@ -27,6 +27,7 @@
 
 <script>
 import {get_data} from '../network/request.js'
+import {ElNotification} from 'element-plus'
 
 export default {
   el: '',
@@ -40,15 +41,22 @@ export default {
   methods: {
     cover_init(){
       this.loading = true
-      get_data().get('/showalldata').then(res=>{
+      get_data().get('/showalldata',{timeout:20000}).then(res=>{
         console.log(res.data);
-        for(let index=0;index<(res.data.length-parseInt(res.data.length*0.75));index++){
+        for(let index=0;index<(res.data.length);index++){
           this.url_list.push(res.data[index][5])
         }
         console.log(this.url_list);
         console.log(this.url_list.length);
         this.pre_length=this.url_list.length
         this.loading = false
+      }).catch(err=>{
+        this.loading = false;
+        ElNotification({
+          title: "Error",
+          message: "超时，请重新加载",
+          type: "error",
+        });
       })
     },
     move(){
@@ -145,7 +153,7 @@ export default {
     transform: translate(-50%,-50%);
   }
   .title{
-    font-weight: bold;
+    font-weight: 500;
     font-size: 2.5rem;
   }
   .startBox>.button{

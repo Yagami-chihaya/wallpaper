@@ -45,7 +45,8 @@ def insert_data(url, category, top_range, current_page, pre_url, resolution):
 
 
 def show_all_data():
-    show_table_sql = 'select * from url_path'
+    num = 24*5*10
+    show_table_sql = 'select * from url_path where pid<=%s'%num
     cur.execute(show_table_sql)
     result = json.dumps(cur.fetchall())
     print(result)

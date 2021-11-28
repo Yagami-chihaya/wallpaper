@@ -8,6 +8,9 @@
     id="nav"
   >
     <div class="left">
+      <a :href="downloadURL" :download="downloadName" id="download">
+        
+      </a>
       <div
         class="download"
         :class="{ active: isActive_download }"
@@ -17,6 +20,7 @@
           isActive_download ? "LOADING" : "DOWNLOAD"
         }}</span>
       </div>
+      
       <div class="info">
         <h3>参数信息</h3>
         <p>分辨率: {{ img_data[0][6] }}</p>
@@ -70,6 +74,11 @@ import { get_data } from "../network/request";
 import downloadAlert from "../components/DownloadAlert.vue";
 import { ElNotification } from "element-plus";
 
+
+
+
+
+
 export default {
   el: "",
   data() {
@@ -81,24 +90,35 @@ export default {
       hue_value: 0,
       magic_state: "",
       loading: false,
+      downloadURL:'',
+      downloadName:'',
     };
   },
   methods: {
     init() {
+      
       this.loading = true;
+      
       get_data()
-        .get("/showimg", { params: { pid: this.$store.state.pid } })
+        .get("/showimg", { params: { pid: this.$store.state.pid,},timeout:20000 })
         .then((res) => {
           console.log(res);
           this.img_data = res.data;
           this.loading = false;
+        }).catch(err=>{
+          this.loading = false;
+          ElNotification({
+            title: "Error",
+            message: "超时，请先退出此页面",
+            type: "error",
+          });
         });
     },
     download(pid) {
       this.isActive_download = true;
       ElNotification({
         title: "Info",
-        message: "开始下载~~",
+        message: "开始加载~~",
         type: "info",
       });
       this.$store.state.isDownload = true;
@@ -110,51 +130,108 @@ export default {
         get_data()
           .get("/to_gray", { params: { pid: pid } })
           .then((res) => {
+            this.downloadURL = "http://47.105.40.169/pictures/"+res.data
+            console.log(this.downloadURL);
+            this.downloadName = res.data
+            setTimeout(() => {
+              document.getElementById('download').click()
+            }, 500);
             ElNotification({
               title: "Success",
-              message: "下载完成！",
+              message: "开始下载！",
               type: "success",
             });
             this.isActive_download = false;
           })
-          .catch(() => {});
+          .catch(err=>{
+            ElNotification({
+              title: "Error",
+              message: "超时，请重新加载",
+              type: "error",
+            });
+          })
       } else if (this.img_state == 2) {
         get_data()
           .get("/to_gaussianBlur", { params: { pid: pid } })
           .then((res) => {
+            this.downloadURL = "http://47.105.40.169/pictures/"+res.data
+            console.log(this.downloadURL);
+            this.downloadName = res.data
+            setTimeout(() => {
+              document.getElementById('download').click()
+            }, 500);
             ElNotification({
               title: "Success",
-              message: "下载完成！",
+              message: "开始下载！",
               type: "success",
             });
             this.isActive_download = false;
           })
-          .catch(() => {});
+          .catch(err=>{
+            ElNotification({
+              title: "Error",
+              message: "超时，请重新加载",
+              type: "error",
+            });
+          })
       } else if (this.img_state == 3) {
+        ElNotification({
+          title: "Warning",
+          message: "加载怀旧风壁纸大概需要1分钟..",
+          type: "warning",
+        });
         get_data()
-          .get("/to_classical", { params: { pid: pid } })
+          .get("/to_classical", { params: { pid: pid } ,timeout:120000})
           .then((res) => {
+            this.downloadURL = "http://47.105.40.169/pictures/"+res.data
+            console.log(this.downloadURL);
+            this.downloadName = res.data
+            setTimeout(() => {
+              document.getElementById('download').click()
+            }, 500);
             ElNotification({
               title: "Success",
-              message: "下载完成！",
+              message: "开始下载！",
               type: "success",
             });
             this.isActive_download = false;
           })
-          .catch(() => {});
+          .catch(err=>{
+            console.log(err);
+            ElNotification({
+              title: "Error",
+              message: "超时，请重新加载",
+              type: "error",
+            });
+          })
       } else {
         get_data()
-          .get("/download", { params: { pid: pid } })
-          .then((res) => {
+          .get("/download", { params: { pid: pid },timeout:20000 })
+          .then(res => {
             console.log(res);
+            this.downloadURL = "http://47.105.40.169/pictures/"+res.data
+            console.log(this.downloadURL);
+            this.downloadName = res.data
+            setTimeout(() => {
+              document.getElementById('download').click()
+            }, 500);
+            
+            
             ElNotification({
               title: "Success",
-              message: "下载完成！",
+              message: "开始下载！",
               type: "success",
             });
             this.isActive_download = false;
           })
-          .catch(() => {});
+          .catch((res) => {
+            console.log(res);
+            ElNotification({
+              title: "Error",
+              message: "下载异常！",
+              type: "error",
+            });
+          });
       }
     },
     to_gray() {
@@ -196,9 +273,9 @@ export default {
         .get("/setwallpaper", { params: { pid } })
         .then((res) => {
           ElNotification({
-            title: "Success",
-            message: "已设置壁纸，请在桌面查看",
-            type: "success",
+            title: "Error",
+            message: "当前处于网页端，无法设置壁纸！",
+            type: "error",
           });
           this.isActive_setting = false;
         });
