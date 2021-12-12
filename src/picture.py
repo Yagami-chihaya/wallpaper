@@ -48,7 +48,7 @@ def request_picture(page, categories, topRange):
 
     }
     #try:
-    sleep(2)
+    #sleep(2)
     response = requests.get(url=url, params=parmas, headers=headers, proxies=proxies, timeout=20).text
     print("当前page:")
     print(page)
@@ -78,7 +78,7 @@ def request_picture(page, categories, topRange):
         print(picture_src)
         headers["user-agent"] = random.choice(headers_list)
 
-        # sleep(.1)  # 限制爬虫速度
+        sleep(2)  # 限制爬虫速度
 
         try:
             print("开始获取数据")
@@ -139,58 +139,58 @@ def update_all():
     # update(10, '111', '1y')
     # update(10, '100', '1y')
 
-    update(10, '001', '1y')
-    update(10, '010', '1y')
-    update(10, '110', '1y')
-    update(10, '101', '1y')
-    update(10, '011', '1y')
-
-    update(10, '111', '1d')
-    update(10, '100', '1d')
-    update(10, '001', '1d')
-    update(10, '010', '1d')
-    update(10, '110', '1d')
-    update(10, '101', '1d')
-    update(10, '011', '1d')
-
-    update(10, '111', '1w')
-    update(10, '100', '1w')
-    update(10, '001', '1w')
-    update(10, '010', '1w')
-    update(10, '110', '1w')
-    update(10, '101', '1w')
-    update(10, '011', '1w')
-
-    update(10, '111', '1M')
-    update(10, '100', '1M')
-    update(10, '001', '1M')
-    update(10, '010', '1M')
-    update(10, '110', '1M')
-    update(10, '101', '1M')
-    update(10, '011', '1M')
-
-    update(10, '111', '3d')
-    update(10, '100', '3d')
-    update(10, '001', '3d')
-    update(10, '010', '3d')
-    update(10, '110', '3d')
-    update(10, '101', '3d')
-    update(10, '011', '3d')
-
-    update(10, '111', '3M')
-    update(10, '100', '3M')
-    update(10, '001', '3M')
-    update(10, '010', '3M')
-    update(10, '110', '3M')
-    update(10, '101', '3M')
-    update(10, '011', '3M')
-
-    update(10, '111', '6M')
-    update(10, '100', '6M')
-    update(10, '001', '6M')
-    update(10, '010', '6M')
-    update(10, '110', '6M')
-    update(10, '101', '6M')
+    # update(10, '001', '1y')
+    # update(10, '010', '1y')
+    # update(10, '110', '1y')
+    # update(10, '101', '1y')
+    # update(10, '011', '1y')
+    #
+    # update(10, '111', '1d')
+    # update(10, '100', '1d')
+    # update(10, '001', '1d')
+    # update(10, '010', '1d')
+    # update(10, '110', '1d')
+    # update(10, '101', '1d')
+    # update(10, '011', '1d')
+    #
+    # update(10, '111', '1w')
+    # update(10, '100', '1w')
+    # update(10, '001', '1w')
+    # update(10, '010', '1w')
+    # update(10, '110', '1w')
+    # update(10, '101', '1w')
+    # update(10, '011', '1w')
+    #
+    # update(10, '111', '1M')
+    # update(10, '100', '1M')
+    # update(10, '001', '1M')
+    # update(10, '010', '1M')
+    # update(10, '110', '1M')
+    # update(10, '101', '1M')
+    # update(10, '011', '1M')
+    #
+    # update(10, '111', '3d')
+    # update(10, '100', '3d')
+    # update(10, '001', '3d')
+    # update(10, '010', '3d')
+    # update(10, '110', '3d')
+    # update(10, '101', '3d')
+    # update(10, '011', '3d')
+    #
+    # update(10, '111', '3M')
+    # update(10, '100', '3M')
+    # update(10, '001', '3M')
+    # update(10, '010', '3M')
+    # update(10, '110', '3M')
+    # update(10, '101', '3M')
+    # update(10, '011', '3M')
+    #
+    # update(10, '111', '6M')
+    # update(10, '100', '6M')
+    # update(10, '001', '6M')
+    # update(10, '010', '6M')
+    # update(10, '110', '6M')
+    # update(10, '101', '6M')
     update(10, '011', '6M')
 
     return '更新完成'

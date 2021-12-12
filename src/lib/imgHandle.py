@@ -11,7 +11,6 @@ print(cv.__file__)
 import numpy as np
 import src.lib.database as db
 
-# user_name = getpass.getuser()  # 获取当前用户名
 download_path = 'pictures'
 
 
