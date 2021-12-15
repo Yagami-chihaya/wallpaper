@@ -28,6 +28,13 @@
 <script>
 import {get_data} from '../network/request.js'
 
+let animation1 = null
+let animation2 = null
+let h = 0
+let translateY = 0
+let speed = 1
+
+
 export default {
   el: '',
   data () {
@@ -35,37 +42,44 @@ export default {
       url_list:[],
       pre_length:0,
       loading:false,
+      
     }
   },
   methods: {
     cover_init(){
       this.loading = true
       get_data().get('/showalldata').then(res=>{
-        console.log(res.data);
+        // console.log(res.data);
         for(let index=0;index<(res.data.length-parseInt(res.data.length*0.75));index++){
           this.url_list.push(res.data[index][5])
         }
-        console.log(this.url_list);
-        console.log(this.url_list.length);
+        // console.log(this.url_list);
+        // console.log(this.url_list.length);
         this.pre_length=this.url_list.length
         this.loading = false
       })
     },
-    move(){
-      let h = 0
-      setTimeout(()=>{
-        h = document.getElementById('preBox').offsetHeight
-        
-        let movedown = setInterval(() => {
-          
-          let offsetY = document.getElementById('preBox').offsetTop
-          
-          if(offsetY<-h+800){
-            clearInterval(movedown)
-          }
-          document.getElementById('preBox').style.top = `${offsetY-1 }px`
-        }, 18);
-      },5000)
+    movedown(){
+      
+      if(translateY<-h+800){
+        cancelAnimationFrame(animation1)
+      }
+      document.getElementById('preBox').style.transform = `translateY(${translateY=translateY - speed}px)`
+      animation1 = requestAnimationFrame(this.movedown)
+      
+    },
+    animation_start(){
+      h = document.getElementById('preBox').offsetHeight
+      
+    },
+    move(start_time){
+      
+      
+    
+      animation2 = setTimeout(() => {
+        this.animation_start()
+        this.movedown()
+      },start_time);
     },
     start(){
       this.$router.push('/top')
@@ -76,9 +90,12 @@ export default {
     
   },
   mounted(){
-    this.move()
-    
-    
+   
+    this.move(2000)
+  },
+  beforeDestoryed(){
+    cancelAnimationFrame(animation1)
+    clearTimeout(animation2)
   }
  
 }
@@ -112,7 +129,7 @@ export default {
   .preBox>div{
     
     width: 20%;
-    height: 200px;
+    
   }
   .preBox>div>img{
     width: 100%;
